@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var eventStream = require('event-stream');
 var ts = require('gulp-typescript');
+var nodemon = require('gulp-nodemon');
 
 gulp.task('ts', function() {
 
@@ -14,4 +15,12 @@ gulp.task('ts', function() {
       jsFromTs.js.pipe(gulp.dest('release/js'))
     );
 
+});
+
+gulp.task('dev', function() {
+  nodemon({ script: 'release/js/server.js', ext: 'ts' })
+    .on('change', ['ts'])
+    .on('restart', function () {
+      console.log('Restarted server.')
+    });
 });
